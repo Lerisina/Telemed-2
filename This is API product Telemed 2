@@ -1,0 +1,452 @@
+openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/Lerisina/Telemed-2-v1-0/1.0.0
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/Lerisina/Telemed_3.0/1.0.0
+info:
+  description: This is API product Telemed 2
+  version: 1.0.0
+  title: This is API product Telemed 2
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+tags:
+  - name: patient
+    description: Пользователь с ролью Пациент
+  - name: doctor
+    description: Пользователь с ролью Врач
+  - name: head_doctor
+    description: Пользователь с ролью Заведующий врач
+  - name: admin
+    description: Пользователь с ролью Администратор
+  - name: KeyCloack
+    description: Сервис авторизации
+  - name: 1C_Bitrix
+    description: CRM клиники здоровья
+paths:
+  /doctor:
+    get:
+      tags:
+        - patient
+        - doctor
+        - head_doctor
+        - admin
+      summary: Посмотреть список врачей
+      operationId: searchDoctorList
+      description: Посмотреть список врачей
+      parameters:
+        - in: query
+          name: limit
+          description: maximum number of records to return
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 50
+      responses:
+        "200":
+          description: результаты
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/doctor"
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+  /doctor/{id}:
+    parameters:
+            - name: id
+              in: path
+              description: Идентификатор врача
+              required: true
+              schema:
+                type: integer
+                example: 1
+    get:
+      tags:
+        - patient
+        - doctor
+        - head_doctor
+        - admin
+      summary: Посмотреть профиль врача
+      operationId: searchDoctorProfile
+      description: Посмотреть профиль врача
+      responses:
+        "200":
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/doctor"
+        "400":
+          description: НBad Request
+        "404":
+          description: Not Found
+    post:
+      tags:
+        - 1C_Bitrix
+        - admin
+      summary: Создать профиль врача/определить специализацию врача
+      operationId: createDoctorProfile
+      description: Создать профиль врача/определить специализацию врача
+      responses:
+        "200":
+          description: Данные врача успешно обновлены
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/doctor"
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+    put:
+      tags:
+        - admin
+      summary: Редактировать данные врача
+      operationId: updateDoctorProfile
+      description: Редактировать данные врача
+      responses:
+        "200":
+          description: Врач успешно создан/симптомы определены
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/doctor"
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+  /patient:
+    get:
+      tags:
+        - doctor
+        - head_doctor
+        - admin
+      summary: Посмотреть список пациентов
+      operationId: searchPatientList
+      description: Посмотреть список пациентов
+      parameters:
+        - in: query
+          name: limit
+          description: maximum number of records to return
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 50
+      responses:
+        "200":
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/patient"
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+  /patient/{id}/:
+    parameters:
+            - name: id
+              in: path
+              description: Идентификатор пациента
+              required: true
+              schema:
+                type: integer
+                example: 1
+    get:
+      tags:
+        - doctor
+        - head_doctor
+      summary: Посмотреть профиль пациента
+      operationId: searchPatientProfile
+      description: Посмотреть профиль пациента
+      responses:
+        "200":
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/patient"
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+    post:
+      tags:
+        - KeyCloack
+      summary: Создать профиль пациента
+      operationId: createPatientProfile
+      description: Создать профиль пациента
+      responses:
+        "200":
+          description: Профиль пациента успешно создан
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/patient"
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+    put:
+      tags:
+        - patient
+      summary: Редактировать данные пациента
+      operationId: updatePatientProfile
+      description: Редактировать данные пациента
+      responses:
+        "200":
+          description: Данные успешно обновлены
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/patient"
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+components:
+  schemas:
+    doctor:
+      type: object
+      required:
+        - id
+        - name
+        - email
+        - position
+        - specialization
+        - expirience
+        - documents
+      properties:
+        id:
+          type: string
+          format: int
+          example: 123
+        name:
+          required:
+            - name
+          properties:
+            fName:
+              type: string
+              example: Петров
+            lName:
+              type: string
+              example: Петр
+            sName:
+              type: string
+              example: Петрович
+        email:
+          type: string
+          example: email@email.com
+        position:
+          type: string
+          example: Проктолог
+        specialization:
+          type: array
+          items:
+            $ref: "#/components/schemas/symptom"
+        expirience:
+          type: array
+          items:
+            $ref: "#/components/schemas/expirience"
+        documents:
+          required:
+            - documents
+          properties:
+            document:
+              type: string
+            password:
+              type: string
+    symptom:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          format: int
+          example: 123
+        name:
+          type: string
+          example: Головная боль
+    expirience:
+      type: object
+      required:
+        - expirience
+      properties:
+            workPlace:
+              type: string
+              example: Лазарет колонии поселения калымского района
+            position:
+              type: string
+              example: Проктолог
+            workPeriod:
+              type: string
+              example: 2000 - 2022
+    patient:
+      type: object
+      required:
+        - id
+        - name
+        - password
+        - email
+        - cmi_policy
+        - vhi_policy
+        - telephone
+        - gender
+        - date_of_birth
+        - blood_type
+        - rh_factor
+        - allergy
+        - bad_habits
+        - known_diagnosis
+        - current_diseases
+        - childhood_diseases
+        - injuries_suffered
+        - postponed_surgeries
+        - medicines_taken
+        - blood_transfusion
+        - work_in_production
+        - obstetric_history
+      properties:
+        id:
+          type: string
+          format: int
+          example: 123
+        name:
+          required:
+            - name
+          properties:
+            fName:
+              type: string
+              example: Петров
+            lName:
+              type: string
+              example: Петр
+            sName:
+              type: string
+              example: Петрович
+        password:
+          type: string
+        email:
+          type: string
+          example: email@email.com
+        telephone:
+          type: string
+          format: int
+          example: 123
+        CollectionGender:
+          required:
+          - state
+          properties:
+            state:
+              type: string
+              enum:
+                  - мужской
+                  - женский
+              example: мужской
+        date_of_birth:
+          type: string
+          example: 1996-06-05
+        CollectionBloodType:
+          required:
+          - state
+          properties:
+            state:
+              type: string
+              enum:
+                  - О (I)
+                  - A (II)
+                  - B (III)
+                  - AB (IV)
+              example: A (II)
+        CollectionRhf:
+          required:
+          - state
+          properties:
+            state:
+              type: string
+              enum:
+                  - +
+                  - --
+              example: +
+        allergy:
+          type: string
+          example: аллергия на пыльцу, на кошек, на жестокую жизнь
+        bad_habits:
+          type: string
+          example: курение, разбрасываю носки
+        known_diagnosis:
+          type: string
+          example: хронический геморрой
+        current_diseases:
+          type: string
+          example: Орви
+        childhood_diseases:
+          type: string
+          example: краснуха, ветрянка, желтуха
+        injuries_suffered:
+          type: string
+          example: перелом ноги, перелом ключицы
+        postponed_surgeries:
+          type: string
+          example: удаление аппендицита, удаление аденоидов
+        medicines_taken:
+          type: string
+          example: тироксин
+        blood_transfusion:
+          type: string
+          example: переливания крови не было
+        work_in_production:
+          type: string
+          example: не работает на производствах
+        obstetric_history:
+          type: string
+          example: отсутствует
+        documents:
+          required:
+            - document
+            - cmi_policy
+            - vhi_policy
+            - gallery_pictures
+          properties:
+            document:
+              type: string
+              format: url
+              example: http://telemed/warehouse/patient/<id>/file_name.doc
+            cmi_policy:
+                type: string
+                format: url
+                example: http://telemed/warehouse/patient/<id>/file_name.pdf
+            vhi_policy:
+              type: string
+              format: url
+              example: http://telemed/warehouse/patient/<id>/file_name.pdf
+            gallery_pictures:
+              type: string
+              format: url
+              example: http://telemed/warehouse/patient/<id>/file_name.jpg
