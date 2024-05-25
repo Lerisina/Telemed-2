@@ -414,7 +414,7 @@ components:
           example: перелом ноги, перелом ключицы
         postponed_surgeries:
           type: string
-          example: удаление аппендицита, удаление аденоидов
+          example: удаление аппендицита, удаление аденоидов, мозга
         medicines_taken:
           type: string
           example: тироксин
