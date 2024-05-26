@@ -396,7 +396,7 @@ components:
               example: +
         allergy:
           type: string
-          example: аллергия на пыльцу, на кошек, на жестокую жизнь
+          example: аллергия на пыльцу, на кошек
         bad_habits:
           type: string
           example: курение, разбрасываю носки
