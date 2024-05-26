@@ -22,7 +22,7 @@ tags:
   - name: head_doctor
     description: Пользователь с ролью Заведующий врач
   - name: admin
-    description: Пользователь с ролью Администратор
+    description: Пользователь с ролью Администраторы
   - name: KeyCloack
     description: Сервис авторизации
   - name: 1C_Bitrix
